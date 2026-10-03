@@ -1,0 +1,1472 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Hospital Visitor Dashboard</title>
+
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #fff1f5;
+    color: #432633;
+}
+
+header {
+    background: white;
+    padding: 25px 6%;
+    border-bottom: 1px solid #ead5dc;
+}
+
+header h1 {
+    color: #5b1f35;
+    font-size: 27px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+section {
+    margin-bottom: 35px;
+}
+
+h2 {
+    color: #5b1f35;
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   BOX
+========================= */
+
+.box {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(91, 31, 53, 0.08);
+}
+
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 5px 18px rgba(91, 31, 53, 0.08);
+}
+
+.number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #5b1f35;
+}
+
+.card p {
+    margin-top: 8px;
+    color: #80616d;
+}
+
+
+/* =========================
+   PATIENTS
+========================= */
+
+.patient-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.patient {
+    background: #fff7f9;
+    border: 1px solid #efdce3;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.patient h3 {
+    color: #5b1f35;
+}
+
+
+/* =========================
+   DOCTORS
+========================= */
+
+.doctor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.doctor {
+    background: #fff7f9;
+    border: 1px solid #efdce3;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.doctor h3 {
+    color: #5b1f35;
+    margin-bottom: 10px;
+}
+
+.doctor p {
+    color: #80616d;
+    margin: 7px 0;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+button {
+    background: #5b1f35;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #421528;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+input,
+select {
+    padding: 12px;
+    border: 1px solid #d9bec8;
+    border-radius: 8px;
+    margin: 5px;
+    background: white;
+}
+
+input:focus,
+select:focus {
+    outline: 2px solid #e8a9bb;
+}
+
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+    margin-top: 18px;
+    padding: 20px;
+    background: #fff1f5;
+    border-radius: 12px;
+    color: #5b1f35;
+    line-height: 1.8;
+}
+
+
+/* =========================
+   DOCTOR STATUS
+========================= */
+
+.available {
+    color: #176b36;
+    font-weight: bold;
+}
+
+.busy {
+    color: #9a6b00;
+    font-weight: bold;
+}
+
+
+/* =========================
+   SMART VISIT
+========================= */
+
+.checklist label {
+    display: block;
+    margin: 12px 0;
+    color: #5b1f35;
+}
+
+
+/* =========================
+   QUICK HELP
+========================= */
+
+.help-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.help {
+    background: #fff7f9;
+    border: 1px solid #efdce3;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.help-icon {
+    font-size: 30px;
+}
+
+.help h3 {
+    color: #5b1f35;
+    margin: 8px 0;
+}
+
+.help p {
+    color: #80616d;
+    font-size: 14px;
+}
+
+
+/* =========================
+   SOS
+========================= */
+
+.sos-box {
+    border: 2px solid #f0b6c5;
+}
+
+.sos-content {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.sos-icon {
+    font-size: 55px;
+}
+
+.sos-content h3 {
+    color: #5b1f35;
+    margin-bottom: 8px;
+}
+
+.sos-content p {
+    color: #80616d;
+    line-height: 1.6;
+}
+
+.sos-button {
+    background: #b4233f;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px 25px;
+    border-radius: 10px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.sos-button:hover {
+    background: #8f1830;
+}
+
+.sos-result {
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff0f2;
+    border: 1px solid #e8aeba;
+    border-radius: 12px;
+    line-height: 1.7;
+}
+
+.call-button {
+    display: inline-block;
+    background: #176b36;
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+.call-button:hover {
+    background: #0e5429;
+}
+
+.close-button {
+    background: #777;
+    margin-left: 8px;
+}
+
+.close-button:hover {
+    background: #555;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 800px) {
+
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .patient-grid,
+    .doctor-grid,
+    .help-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+@media (max-width: 500px) {
+
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+
+    input,
+    select,
+    button {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .sos-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .close-button {
+        margin-left: 0;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <h1>
+        🏥 Hospital Visitor Dashboard
+    </h1>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- =========================
+     DASHBOARD
+========================= -->
+
+<section>
+
+<h2>Dashboard</h2>
+
+<div class="dashboard">
+
+    <div class="card">
+
+        <div class="number">
+            24
+        </div>
+
+        <p>
+            Doctors
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="number">
+            86
+        </div>
+
+        <p>
+            Patients
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="number">
+            12
+        </div>
+
+        <p>
+            Appointments Today
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="number">
+            8
+        </div>
+
+        <p>
+            Departments
+        </p>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     PATIENTS
+========================= -->
+
+<section>
+
+<h2>
+    Patients in Hospital
+</h2>
+
+<div class="box">
+
+<div class="patient-grid">
+
+    <div class="patient">
+        <h3>Ananya Sharma</h3>
+    </div>
+
+    <div class="patient">
+        <h3>Rahul Mehta</h3>
+    </div>
+
+    <div class="patient">
+        <h3>Priya Nair</h3>
+    </div>
+
+    <div class="patient">
+        <h3>Kiran Kumar</h3>
+    </div>
+
+    <div class="patient">
+        <h3>Aarav Reddy</h3>
+    </div>
+
+    <div class="patient">
+        <h3>Sneha Rao</h3>
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     FIND PATIENT
+========================= -->
+
+<section>
+
+<h2>
+    🔎 Find Patient
+</h2>
+
+<div class="box">
+
+    <input
+        type="text"
+        id="patientInput"
+        placeholder="Enter patient name"
+    >
+
+    <button onclick="findPatient()">
+        Search
+    </button>
+
+    <div id="patientResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     DOCTORS
+========================= -->
+
+<section>
+
+<h2>
+    👨‍⚕️ Doctors
+</h2>
+
+<div class="box">
+
+<div class="doctor-grid">
+
+
+    <div class="doctor">
+
+        <h3>
+            Dr. Priya Reddy
+        </h3>
+
+        <p>
+            Cardiology
+        </p>
+
+        <p>
+            12 years experience
+        </p>
+
+        <p class="available">
+            ● Available
+        </p>
+
+        <button
+            onclick="chooseDoctor('Dr. Priya Reddy')">
+
+            Book Appointment
+
+        </button>
+
+    </div>
+
+
+    <div class="doctor">
+
+        <h3>
+            Dr. Arjun Kumar
+        </h3>
+
+        <p>
+            Neurology
+        </p>
+
+        <p>
+            10 years experience
+        </p>
+
+        <p class="busy">
+            ● In Consultation
+        </p>
+
+        <button
+            onclick="chooseDoctor('Dr. Arjun Kumar')">
+
+            Book Appointment
+
+        </button>
+
+    </div>
+
+
+    <div class="doctor">
+
+        <h3>
+            Dr. Meera Rao
+        </h3>
+
+        <p>
+            Pediatrics
+        </p>
+
+        <p>
+            8 years experience
+        </p>
+
+        <p class="available">
+            ● Available
+        </p>
+
+        <button
+            onclick="chooseDoctor('Dr. Meera Rao')">
+
+            Book Appointment
+
+        </button>
+
+    </div>
+
+
+    <div class="doctor">
+
+        <h3>
+            Dr. Vikram Singh
+        </h3>
+
+        <p>
+            Orthopedics
+        </p>
+
+        <p>
+            15 years experience
+        </p>
+
+        <p class="busy">
+            ● In Consultation
+        </p>
+
+        <button
+            onclick="chooseDoctor('Dr. Vikram Singh')">
+
+            Book Appointment
+
+        </button>
+
+    </div>
+
+
+    <div class="doctor">
+
+        <h3>
+            Dr. Anjali Sharma
+        </h3>
+
+        <p>
+            Dermatology
+        </p>
+
+        <p>
+            7 years experience
+        </p>
+
+        <p class="available">
+            ● Available
+        </p>
+
+        <button
+            onclick="chooseDoctor('Dr. Anjali Sharma')">
+
+            Book Appointment
+
+        </button>
+
+    </div>
+
+
+    <div class="doctor">
+
+        <h3>
+            Dr. Ravi Kumar
+        </h3>
+
+        <p>
+            General Medicine
+        </p>
+
+        <p>
+            11 years experience
+        </p>
+
+        <p class="available">
+            ● Available
+        </p>
+
+        <button
+            onclick="chooseDoctor('Dr. Ravi Kumar')">
+
+            Book Appointment
+
+        </button>
+
+    </div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     APPOINTMENT
+========================= -->
+
+<section>
+
+<h2>
+    📅 Book Appointment
+</h2>
+
+<div class="box">
+
+    <select id="doctorSelect">
+
+        <option value="">
+            Select Doctor
+        </option>
+
+        <option value="Dr. Priya Reddy">
+            Dr. Priya Reddy
+        </option>
+
+        <option value="Dr. Arjun Kumar">
+            Dr. Arjun Kumar
+        </option>
+
+        <option value="Dr. Meera Rao">
+            Dr. Meera Rao
+        </option>
+
+        <option value="Dr. Vikram Singh">
+            Dr. Vikram Singh
+        </option>
+
+        <option value="Dr. Anjali Sharma">
+            Dr. Anjali Sharma
+        </option>
+
+        <option value="Dr. Ravi Kumar">
+            Dr. Ravi Kumar
+        </option>
+
+    </select>
+
+
+    <input
+        type="date"
+        id="appointmentDate"
+    >
+
+
+    <button onclick="bookAppointment()">
+
+        Book Appointment
+
+    </button>
+
+
+    <div id="appointmentResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     SMART VISIT
+========================= -->
+
+<section>
+
+<h2>
+    ✨ Smart Visit Assistant
+</h2>
+
+<div class="box">
+
+    <h3>
+        Before Your Visit
+    </h3>
+
+    <br>
+
+
+    <label class="checklist">
+
+        <input type="checkbox">
+
+        Carry previous medical reports
+
+    </label>
+
+
+    <label class="checklist">
+
+        <input type="checkbox">
+
+        Carry your ID proof
+
+    </label>
+
+
+    <label class="checklist">
+
+        <input type="checkbox">
+
+        Keep appointment details ready
+
+    </label>
+
+
+    <label class="checklist">
+
+        <input type="checkbox">
+
+        Arrive 15 minutes early
+
+    </label>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     QUICK HELP
+========================= -->
+
+<section>
+
+<h2>
+    🆘 Hospital Quick Help
+</h2>
+
+<div class="box">
+
+<div class="help-grid">
+
+
+    <div class="help">
+
+        <div class="help-icon">
+            💊
+        </div>
+
+        <h3>
+            Pharmacy
+        </h3>
+
+        <p>
+            Medicine information
+        </p>
+
+        <button
+            onclick="showHelp('Pharmacy')">
+
+            View
+
+        </button>
+
+    </div>
+
+
+    <div class="help">
+
+        <div class="help-icon">
+            🧪
+        </div>
+
+        <h3>
+            Laboratory
+        </h3>
+
+        <p>
+            Diagnostic services
+        </p>
+
+        <button
+            onclick="showHelp('Laboratory')">
+
+            View
+
+        </button>
+
+    </div>
+
+
+    <div class="help">
+
+        <div class="help-icon">
+            ℹ️
+        </div>
+
+        <h3>
+            Reception
+        </h3>
+
+        <p>
+            General assistance
+        </p>
+
+        <button
+            onclick="showHelp('Reception')">
+
+            View
+
+        </button>
+
+    </div>
+
+
+    <div class="help">
+
+        <div class="help-icon">
+            🏥
+        </div>
+
+        <h3>
+            Information
+        </h3>
+
+        <p>
+            Hospital information
+        </p>
+
+        <button
+            onclick="showHelp('Hospital Information')">
+
+            View
+
+        </button>
+
+    </div>
+
+
+</div>
+
+
+<div id="helpResult"></div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     WORKING SOS
+========================= -->
+
+<section>
+
+<h2>
+    🚨 Emergency SOS
+</h2>
+
+<div class="box sos-box">
+
+
+    <div class="sos-content">
+
+        <div class="sos-icon">
+            🚨
+        </div>
+
+
+        <div>
+
+            <h3>
+                Need Emergency Assistance?
+            </h3>
+
+            <p>
+                Press the SOS button to quickly
+                contact hospital emergency services.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <button
+        class="sos-button"
+        onclick="activateSOS()">
+
+        🚨 SOS — EMERGENCY HELP
+
+    </button>
+
+
+    <div id="sosResult"></div>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
+<script>
+
+
+/* =========================
+   PATIENT DATABASE
+========================= */
+
+var patients = {
+
+    "ananya sharma": {
+
+        name: "Ananya Sharma",
+
+        age: "34",
+
+        gender: "Female",
+
+        department: "Cardiology",
+
+        doctor: "Dr. Priya Reddy",
+
+        status: "Admitted"
+
+    },
+
+
+    "rahul mehta": {
+
+        name: "Rahul Mehta",
+
+        age: "42",
+
+        gender: "Male",
+
+        department: "Orthopedics",
+
+        doctor: "Dr. Vikram Singh",
+
+        status: "Admitted"
+
+    },
+
+
+    "priya nair": {
+
+        name: "Priya Nair",
+
+        age: "29",
+
+        gender: "Female",
+
+        department: "Neurology",
+
+        doctor: "Dr. Arjun Kumar",
+
+        status: "Admitted"
+
+    },
+
+
+    "kiran kumar": {
+
+        name: "Kiran Kumar",
+
+        age: "51",
+
+        gender: "Male",
+
+        department: "Dermatology",
+
+        doctor: "Dr. Anjali Sharma",
+
+        status: "Admitted"
+
+    },
+
+
+    "aarav reddy": {
+
+        name: "Aarav Reddy",
+
+        age: "12",
+
+        gender: "Male",
+
+        department: "Pediatrics",
+
+        doctor: "Dr. Meera Rao",
+
+        status: "Admitted"
+
+    },
+
+
+    "sneha rao": {
+
+        name: "Sneha Rao",
+
+        age: "38",
+
+        gender: "Female",
+
+        department: "General Medicine",
+
+        doctor: "Dr. Ravi Kumar",
+
+        status: "Admitted"
+
+    }
+
+};
+
+
+/* =========================
+   FIND PATIENT
+========================= */
+
+function findPatient() {
+
+    var input =
+        document.getElementById("patientInput");
+
+    var result =
+        document.getElementById("patientResult");
+
+    var name =
+        input.value.toLowerCase().trim();
+
+
+    if (name === "") {
+
+        result.innerHTML =
+            "<div class='result'>" +
+            "Please enter a patient name." +
+            "</div>";
+
+        return;
+
+    }
+
+
+    var patient =
+        patients[name];
+
+
+    if (patient) {
+
+        result.innerHTML =
+
+            "<div class='result'>" +
+
+            "<h3>👤 " +
+            patient.name +
+            "</h3>" +
+
+            "<b>Age:</b> " +
+            patient.age +
+            "<br>" +
+
+            "<b>Gender:</b> " +
+            patient.gender +
+            "<br>" +
+
+            "<b>Department:</b> " +
+            patient.department +
+            "<br>" +
+
+            "<b>Doctor:</b> " +
+            patient.doctor +
+            "<br>" +
+
+            "<b>Status:</b> " +
+            patient.status +
+
+            "</div>";
+
+    }
+
+    else {
+
+        result.innerHTML =
+
+            "<div class='result'>" +
+
+            "❌ Patient not found." +
+
+            "<br><br>" +
+
+            "Try: Ananya Sharma" +
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =========================
+   CHOOSE DOCTOR
+========================= */
+
+function chooseDoctor(doctorName) {
+
+    document.getElementById("doctorSelect").value =
+        doctorName;
+
+
+    document.getElementById("doctorSelect")
+        .scrollIntoView({
+
+            behavior: "smooth",
+
+            block: "center"
+
+        });
+
+}
+
+
+/* =========================
+   BOOK APPOINTMENT
+========================= */
+
+function bookAppointment() {
+
+    var doctor =
+        document.getElementById("doctorSelect").value;
+
+
+    var date =
+        document.getElementById("appointmentDate").value;
+
+
+    var result =
+        document.getElementById("appointmentResult");
+
+
+    if (doctor === "") {
+
+        result.innerHTML =
+
+            "<div class='result'>" +
+
+            "⚠️ Please select a doctor." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    if (date === "") {
+
+        result.innerHTML =
+
+            "<div class='result'>" +
+
+            "⚠️ Please select an appointment date." +
+
+            "</div>";
+
+        return;
+
+    }
+
+
+    result.innerHTML =
+
+        "<div class='result'>" +
+
+        "<h3>✅ Appointment Confirmed</h3>" +
+
+        "<b>Doctor:</b> " +
+        doctor +
+
+        "<br>" +
+
+        "<b>Date:</b> " +
+        date +
+
+        "<br><br>" +
+
+        "Please arrive 15 minutes early." +
+
+        "</div>";
+
+}
+
+
+/* =========================
+   QUICK HELP
+========================= */
+
+function showHelp(type) {
+
+    var result =
+        document.getElementById("helpResult");
+
+
+    result.innerHTML =
+
+        "<div class='result'>" +
+
+        "<h3>ℹ️ " +
+        type +
+        "</h3>" +
+
+        "<p>" +
+
+        "Please contact the hospital reception " +
+
+        "or appropriate hospital staff for " +
+
+        type.toLowerCase() +
+
+        " assistance." +
+
+        "</p>" +
+
+        "</div>";
+
+}
+
+
+/* =========================
+   WORKING SOS
+========================= */
+
+function activateSOS() {
+
+
+    var result =
+        document.getElementById("sosResult");
+
+
+    var confirmation =
+        confirm(
+
+            "Are you facing a medical emergency?\n\n" +
+
+            "Press OK to contact hospital emergency services."
+
+        );
+
+
+    if (confirmation) {
+
+
+        result.innerHTML =
+
+            "<div class='sos-result'>" +
+
+            "<h3>" +
+
+            "🚨 Emergency Assistance Activated" +
+
+            "</h3>" +
+
+            "<br>" +
+
+            "<p>" +
+
+            "Please stay calm and contact " +
+
+            "the hospital emergency desk immediately." +
+
+            "</p>" +
+
+            "<br>" +
+
+            "<p>" +
+
+            "<b>Hospital Emergency:</b> " +
+
+            "+91 98765 43210" +
+
+            "</p>" +
+
+            "<br>" +
+
+            "<p>" +
+
+            "If this is a real emergency, " +
+
+            "seek immediate assistance from qualified " +
+
+            "medical personnel." +
+
+            "</p>" +
+
+
+            "<a " +
+
+            "class='call-button' " +
+
+            "href='tel:+919876543210'>" +
+
+            "📞 Call Emergency" +
+
+            "</a>" +
+
+
+            "<button " +
+
+            "class='close-button' " +
+
+            "onclick='closeSOS()'>" +
+
+            "Close" +
+
+            "</button>" +
+
+
+            "</div>";
+
+    }
+
+}
+
+
+/* =========================
+   CLOSE SOS
+========================= */
+
+function closeSOS() {
+
+    document.getElementById("sosResult").innerHTML = "";
+
+}
+
+</script>
+
+
+</body>
+
+</html>
+```
